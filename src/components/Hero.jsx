@@ -1,4 +1,6 @@
 import { motion } from "framer-motion"
+import { Link } from "react-router-dom";
+
 
 function Hero() {
   return (
@@ -33,12 +35,12 @@ function Hero() {
         </p>
 
         <div className="flex gap-4 justify-center flex-wrap">
-  <button
-    className="bg-white text-black px-8 py-3 rounded-full font-medium hover:bg-gray-200 transition"
-  >
-    Explore Collection
-  </button>
-
+  <Link
+  to="/collections"
+  className="bg-white text-black px-8 py-3 rounded-full font-medium hover:bg-gray-200 transition"
+>
+  Explore Collection
+</Link>
   <a
     href="https://instagram.com/style.bee_aura"
     target="_blank"
@@ -54,4 +56,4 @@ function Hero() {
   )
 }
 
-export default Hero
+export default Hero;

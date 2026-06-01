@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "../supabase";
 
 function AdminDashboard() {
@@ -7,12 +7,28 @@ function AdminDashboard() {
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+  fetchProducts();
+}, []);
+
+async function fetchProducts() {
+  const { data, error } = await supabase
+    .from("products")
+    .select("*")
+    .order("id", { ascending: false });
+
+  if (!error) {
+    setProducts(data);
+  }
+}
 
   const handleUpload = async () => {
     if (!name || !category || !description || !image) {
       alert("Please fill all fields");
       return;
     }
+    
 
     try {
       setLoading(true);
@@ -43,8 +59,8 @@ function AdminDashboard() {
         ]);
 
       if (dbError) throw dbError;
-
-      alert("Product uploaded successfully!");
+alert("Product uploaded successfully!");
+fetchProducts();
 
       setName("");
       setCategory("");
@@ -57,6 +73,30 @@ function AdminDashboard() {
       setLoading(false);
     }
   };
+  async function deleteProduct(id) {
+  const confirmDelete = window.confirm(
+    "Delete this product?"
+  );
+
+  if (!confirmDelete) return;
+
+  const { data, error } = await supabase
+    .from("products")
+    .delete()
+    .eq("id", id)
+    .select();
+
+  console.log("DATA:", data);
+  console.log("ERROR:", error);
+
+  if (error) {
+    alert(error.message);
+    return;
+  }
+
+  fetchProducts();
+  alert("Product deleted");
+}
 
   return (
     <div
@@ -136,6 +176,48 @@ function AdminDashboard() {
         >
           {loading ? "Uploading..." : "Upload Product"}
         </button>
+        <div
+  style={{
+    marginTop: "40px",
+    background: "#222",
+    padding: "20px",
+    borderRadius: "10px",
+  }}
+>
+  <h2>All Products</h2>
+
+  {products.map((product) => (
+    <div
+      key={product.id}
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        padding: "12px",
+        borderBottom: "1px solid #444",
+      }}
+    >
+      <div>
+        <p>{product.name}</p>
+        <small>{product.category}</small>
+      </div>
+
+      <button
+        onClick={() => deleteProduct(product.id)}
+        style={{
+          background: "red",
+          color: "white",
+          border: "none",
+          padding: "8px 15px",
+          cursor: "pointer",
+          borderRadius: "5px",
+        }}
+      >
+        Delete
+      </button>
+    </div>
+  ))}
+</div>
       </div>
     </div>
   );
