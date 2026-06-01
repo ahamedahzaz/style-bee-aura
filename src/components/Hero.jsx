@@ -8,8 +8,10 @@ function Hero() {
     >
 
       {/* Background */}
-      <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=2070')] bg-cover bg-center opacity-40"></div>
-
+      <div
+  className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=2070')] bg-cover bg-center opacity-40"
+  style={{ pointerEvents: "none" }}
+></div>
       {/* Content */}
       <motion.div
         initial={{ opacity: 0, y: 80 }}
@@ -31,17 +33,21 @@ function Hero() {
         </p>
 
         <div className="flex gap-4 justify-center flex-wrap">
+  <button
+    className="bg-white text-black px-8 py-3 rounded-full font-medium hover:bg-gray-200 transition"
+  >
+    Explore Collection
+  </button>
 
-          <button className="bg-white text-black px-8 py-3 rounded-full font-medium hover:bg-gray-200 transition">
-            Explore Collection
-          </button>
-
-          <button className="border border-white px-8 py-3 rounded-full hover:bg-white hover:text-black transition">
-            Instagram
-          </button>
-
-        </div>
-
+  <a
+    href="https://instagram.com/style.bee_aura"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="bg-white text-black px-8 py-3 rounded-full font-medium hover:bg-gray-200 transition"
+  >
+    Instagram
+  </a>
+</div>
       </motion.div>
 
     </section>
